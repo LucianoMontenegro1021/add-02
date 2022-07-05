@@ -1,23 +1,14 @@
-from machine import Pin
+from machine import ADC
 from time import sleep
-pulsador1 = Pin (28, Pin.IN)
-led1 = Pin (1, Pin.OUT)
-pulsador2 = Pin (27, Pin.IN)
-led2 = Pin (2, Pin.OUT)
+adc = ADC (26)
 
 while True:
-  if pulsador1.value() == 1:
-    led1.value(1)
-
-  if pulsador1.value () == 0:
-    led1.value(0)
-
-  if pulsador2.value () == 1:
-
-    if led2.value() == 0:
-      led2.value(1)
-
-    elif led2.value () == 1:
-      led2.value(0)
-  
-    sleep (0.5)
+    
+    val = adc.read_u16 ()
+    
+    V = (val*3.3) / 65535
+    
+    T = (V*1) / 0.01
+    sleep (1)
+    
+    print ("Temperatura: {:.2f}".format(T))
